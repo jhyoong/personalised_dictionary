@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/SearchComponent.module.css';
 
 interface Entry {
   key: string;
@@ -53,17 +54,17 @@ export default function SearchComponent() {
 
   return (
     <div>
-      <div className="flex mb-4">
+      <div className={styles.searchContainer}>
         <input
           type="text"
           value={searchKey}
           onChange={(e) => setSearchKey(e.target.value)}
           placeholder="Search entries..."
-          className="flex-grow p-2 border rounded-l"
+          className={styles.searchInput}
         />
         <button 
           onClick={handleSearch}
-          className="bg-blue-500 text-white p-2 rounded-r hover:bg-blue-600"
+          className={styles.searchButton}
           disabled={loading}
         >
           Search
@@ -72,27 +73,27 @@ export default function SearchComponent() {
       
       <button 
         onClick={handleListAll}
-        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full mb-4"
+        className={styles.listButton}
         disabled={loading}
       >
         List All Entries
       </button>
 
-      {loading && <p className="text-gray-500">Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <p className={styles.loadingText}>Loading...</p>}
+      {error && <p className={styles.errorText}>{error}</p>}
 
-      <div className="mt-4 max-h-96 overflow-y-auto">
+      <div className={styles.resultsContainer}>
         {results.length > 0 ? (
-          <div className="border rounded divide-y">
+          <div className={styles.resultsList}>
             {results.map((entry, index) => (
-              <div key={index} className="p-4">
-                <h3 className="font-bold">Searched: {entry.key}</h3>
-                <p className="whitespace-pre-wrap">{entry.content}</p>
+              <div key={index} className={styles.resultItem}>
+                <h3 className={styles.resultKey}>Searched: {entry.key}</h3>
+                <p className={styles.resultContent}>{entry.content}</p>
               </div>
             ))}
           </div>
         ) : !loading && !error && (
-          <p className="text-gray-500">No entries found.</p>
+          <p className={styles.noResults}>No entries found.</p>
         )}
       </div>
     </div>

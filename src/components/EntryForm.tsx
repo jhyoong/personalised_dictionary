@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from 'react';
+import styles from '../styles/EntryForm.module.css';
 
 interface Entry {
   key: string;
@@ -42,8 +43,8 @@ export default function EntryForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="key" className="block mb-2 font-medium">
+        <div className={styles.formGroup}>
+          <label htmlFor="key">
             Search Key
           </label>
           <input
@@ -52,11 +53,11 @@ export default function EntryForm() {
             value={key}
             onChange={(e) => setKey(e.target.value)}
             required
-            className="w-full p-2 border rounded"
+            className={styles.input}
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="content" className="block mb-2 font-medium">
+        <div className={styles.formGroup}>
+          <label htmlFor="content">
             Content
           </label>
           <textarea
@@ -64,21 +65,21 @@ export default function EntryForm() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="w-full p-2 border rounded h-32"
+            className={styles.textarea}
           />
         </div>
         <button 
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className={styles.button}
         >
           Add Entry
         </button>
       </form>
       
       {message && (
-        <div className={`mt-4 p-3 rounded ${
-          messageType === 'success' ? 'bg-green-100 text-green-800' : 
-          messageType === 'error' ? 'bg-red-100 text-red-800' : ''
+        <div className={`${styles.message} ${
+          messageType === 'success' ? styles.success : 
+          messageType === 'error' ? styles.error : ''
         }`}>
           {message}
         </div>
