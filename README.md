@@ -66,7 +66,8 @@ A simple Next.js application for adding and managing entries in a JSON file.
 ./search.sh --help
 ```
 
-## Key Changes
-- Partial key matching
-- Case-insensitive search
-- Flexible search across entry keys
+## TODO
+~~1. Make frontend look somewhat better~~
+2. Expand CLI functions (edit, search in content)
+3. Add edit button to frontend
+3. Explore alternative data store options

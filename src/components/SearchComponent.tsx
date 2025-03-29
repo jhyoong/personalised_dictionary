@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/SearchComponent.module.css';
 
 interface Entry {
   key: string;
@@ -9,8 +10,10 @@ export default function SearchComponent() {
   const [searchKey, setSearchKey] = useState('');
   const [results, setResults] = useState<Entry[]>([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/entries?search=${encodeURIComponent(searchKey)}`);
       
@@ -24,10 +27,13 @@ export default function SearchComponent() {
     } catch (err) {
       setError('Error searching entries');
       setResults([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleListAll = async () => {
+    setLoading(true);
     try {
       const response = await fetch('/api/entries');
       
@@ -41,48 +47,55 @@ export default function SearchComponent() {
     } catch (err) {
       setError('Error listing entries');
       setResults([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <div className="flex mb-4">
+    <div>
+      <div className={styles.searchContainer}>
         <input
           type="text"
           value={searchKey}
           onChange={(e) => setSearchKey(e.target.value)}
           placeholder="Search entries..."
-          className="flex-grow p-2 border rounded-l"
+          className={styles.searchInput}
         />
         <button 
           onClick={handleSearch}
-          className="bg-blue-500 text-white p-2 rounded-r"
+          className={styles.searchButton}
+          disabled={loading}
         >
           Search
         </button>
-        <button 
-          onClick={handleListAll}
-          className="bg-green-500 text-white p-2 rounded ml-2"
-        >
-          List All
-        </button>
       </div>
+      
+      <button 
+        onClick={handleListAll}
+        className={styles.listButton}
+        disabled={loading}
+      >
+        List All Entries
+      </button>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <p className={styles.loadingText}>Loading...</p>}
+      {error && <p className={styles.errorText}>{error}</p>}
 
-      {results.length > 0 && (
-        <div className="border rounded">
-          {results.map((entry, index) => (
-            <div 
-              key={index} 
-              className="p-4 border-b last:border-b-0"
-            >
-              <h3 className="font-bold">Searched: {entry.key}</h3>
-              <p>{entry.content}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className={styles.resultsContainer}>
+        {results.length > 0 ? (
+          <div className={styles.resultsList}>
+            {results.map((entry, index) => (
+              <div key={index} className={styles.resultItem}>
+                <h3 className={styles.resultKey}>Searched: {entry.key}</h3>
+                <p className={styles.resultContent}>{entry.content}</p>
+              </div>
+            ))}
+          </div>
+        ) : !loading && !error && (
+          <p className={styles.noResults}>No entries found.</p>
+        )}
+      </div>
     </div>
   );
 }

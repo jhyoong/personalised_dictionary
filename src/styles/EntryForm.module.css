@@ -1,0 +1,50 @@
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+}
+
+.textarea {
+  height: 8rem;
+  resize: vertical;
+}
+
+.button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: none;
+}
+
+.button:hover {
+  background-color: #2563eb;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}

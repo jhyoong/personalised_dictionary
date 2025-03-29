@@ -1,13 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    // Ensure the data directory is copied to the build
-    webpack: (config, { isServer }) => {
-      if (isServer) {
-        config.resolve.fallback = { fs: false };
-      }
-      return config;
+  reactStrictMode: true,
+  webpack: (config, { isServer }) => {
+    // Fix for fs module
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
     }
-  }
-  
-  module.exports = nextConfig
+    
+    // Disable webpack cache to prevent errors
+    config.cache = false;
+    
+    return config;
+  },
+}
+
+module.exports = nextConfig
