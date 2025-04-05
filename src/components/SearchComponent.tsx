@@ -4,6 +4,7 @@ import styles from '../styles/SearchComponent.module.css';
 interface Entry {
   key: string;
   content: string;
+  modified: string;
 }
 
 export default function SearchComponent() {
@@ -89,6 +90,7 @@ export default function SearchComponent() {
               <div key={index} className={styles.resultItem}>
                 <h3 className={styles.resultKey}>Searched: {entry.key}</h3>
                 <p className={styles.resultContent}>{entry.content}</p>
+                <p className={styles.resultTime}>Modified: {new Date(entry.modified).toLocaleString()}</p>
               </div>
             ))}
           </div>

@@ -5,6 +5,7 @@ import path from 'path';
 interface Entry {
   key: string;
   content: string;
+  modified: string;
 }
 
 // Ensure that the data directory and store.json file exist
@@ -63,6 +64,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else if (req.method === 'POST') {
       try {
         const { key, content } = req.body;
+        // Create current timestamp
+        const timestamp = new Date().toISOString();
 
         // Read existing data
         const fileContents = await fs.readFile(filePath, 'utf8');
@@ -71,11 +74,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Check for duplicate key
         const existingEntryIndex = data.findIndex(entry => entry.key === key);
         if (existingEntryIndex !== -1) {
-          // Update existing entry
-          data[existingEntryIndex] = { key, content };
+          // Update existing entry with new timestamp
+          data[existingEntryIndex] = { key, content, modified: timestamp };
         } else {
-          // Add new entry
-          data.push({ key, content });
+          // Add new entry with timestamp
+          data.push({ key, content, modified: timestamp });
         }
 
         // Write updated data back to file

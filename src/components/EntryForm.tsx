@@ -4,6 +4,7 @@ import styles from '../styles/EntryForm.module.css';
 interface Entry {
   key: string;
   content: string;
+  modified: string;
 }
 
 export default function EntryForm() {
