@@ -60,6 +60,18 @@ display_results() {
     if [ -z "$results" ] || [ "$results" = "[]" ]; then
         echo "No matching entries found."
     else
+        echo "$results" | jq -r '.[] | "Searched: \(.key)\nModified: \(.modified)\n\(.content)\n"'
+    fi
+}
+
+# Function to format timestamp (if exists)
+format_timestamp() {
+    local results="$1"
+    if jq -e '.[0].modified' >/dev/null 2>&1 <<< "$results"; then
+        # Modified field exists, display it
+        echo "$results" | jq -r '.[] | "Searched: \(.key)\nModified: \(.modified)\n\(.content)\n"'
+    else
+        # Modified field doesn't exist, use original format
         echo "$results" | jq -r '.[] | "Searched: \(.key)\n\(.content)\n"'
     fi
 }
@@ -67,11 +79,12 @@ display_results() {
 # Perform search or list all entries
 if [ "$LIST_ALL" = true ]; then
     # List all entries
-    cat "$DATA_FILE" | jq -r '.[] | "Searched: \(.key)\n\(.content)\n"'
+    results=$(cat "$DATA_FILE")
+    format_timestamp "$results"
 elif [ -n "$SEARCH_KEY" ]; then
     # Search for entries by partial, case-insensitive key
     results=$(cat "$DATA_FILE" | jq --arg key "${SEARCH_KEY,,}" '[.[] | select(.key | ascii_downcase | contains($key))]')
-    display_results "$results"
+    format_timestamp "$results"
 else
     # No arguments provided
     usage
