@@ -1,5 +1,6 @@
 .formGroup {
   margin-bottom: 1rem;
+  padding-right: 1rem; /* Add right padding */
 }
 
 .formGroup label {
