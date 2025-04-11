@@ -14,7 +14,7 @@ usage() {
     echo "Options:"
     echo "  <search_key>              Search for entries by partial, case-insensitive key (default)"
     echo "  -l, --list               List all entries"
-    echo "  -a, --all                Add a new key-value pair (calls keyAdd.sh)"
+    echo "  -a, --add                Add a new key-value pair (calls keyAdd.sh)"
     echo "  -h, --help               Show this help message"
     exit 1
 }
@@ -45,7 +45,7 @@ while [ $# -gt 0 ]; do
             LIST_ALL=true
             shift
             ;;
-        -a| --all)
+        -a| --add)
             CALL_KEY_ADD=true
             shift
             ;;
