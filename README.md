@@ -39,7 +39,7 @@ A simple Next.js application for adding and managing entries in a JSON file.
 ./search.sh "search_term"
 ```
 
-#### Search Behavior
+#### Default Search Behavior
 - Matches partial keys
 - Case-insensitive
 - Returns all entries where the search term is found in the key
@@ -59,6 +59,13 @@ A simple Next.js application for adding and managing entries in a JSON file.
 ./search.sh --list
 ```
 
+### Add key and content
+```bash
+./search.sh -a
+# or
+./search.sh --add
+```
+
 ### Help
 ```bash
 ./search.sh -h
@@ -67,8 +74,14 @@ A simple Next.js application for adding and managing entries in a JSON file.
 ```
 
 ## TODO
-~~1. Make frontend look somewhat better~~
-2. Expand CLI functions (edit, search in content)
-3. Add edit button to frontend
-4. Add timestamps to entries and modifications 
+1. ~~Make frontend look somewhat better~~
+
+2. Expand CLI functions (~~edit~~, search in content)
+
+3. ~~Add edit button to frontend~~
+
+4. ~~Add timestamps to entries and modifications~~ 
+
 5. Explore alternative data store options
+
+6. Separate script to another repo for lightweight purpose? and auto shebang switch if possible based on OS.
