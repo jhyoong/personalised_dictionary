@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# For macOS - Shebang would most likely need to change to homebrew installed bash(v4+) !/opt/homebrew/bin/bash
+
 # Path to the JSON data store
-DATA_FILE="data/store.json"
+CURR_PATH="$(realpath $0)"
+CURR_DIR="$(dirname ${CURR_PATH})"
+DATA_FILE="${CURR_DIR}/data/store.json"
+KEY_ADD_SCRIPT="${CURR_DIR}/keyAdd.sh"
 
 # Function to display usage instructions
 usage() {
@@ -9,6 +14,7 @@ usage() {
     echo "Options:"
     echo "  <search_key>              Search for entries by partial, case-insensitive key (default)"
     echo "  -l, --list               List all entries"
+    echo "  -a, --all                Add a new key-value pair (calls keyAdd.sh)"
     echo "  -h, --help               Show this help message"
     exit 1
 }
@@ -30,12 +36,17 @@ fi
 # Initialize variables
 LIST_ALL=false
 SEARCH_KEY=""
+CALL_KEY_ADD=false
 
 # Parse command-line arguments
 while [ $# -gt 0 ]; do
     case "$1" in
         -l|--list)
             LIST_ALL=true
+            shift
+            ;;
+        -a| --all)
+            CALL_KEY_ADD=true
             shift
             ;;
         -h|--help)
@@ -76,9 +87,10 @@ format_timestamp() {
     fi
 }
 
-# Perform search or list all entries
-if [ "$LIST_ALL" = true ]; then
-    # List all entries
+# Perform search or list all entries or add key
+if [ "$CALL_KEY_ADD" = true ]; then
+    bash "$KEY_ADD_SCRIPT"
+elif [ "$LIST_ALL" = true ]; then
     results=$(cat "$DATA_FILE")
     format_timestamp "$results"
 elif [ -n "$SEARCH_KEY" ]; then
